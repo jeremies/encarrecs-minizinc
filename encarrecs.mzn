@@ -15,17 +15,20 @@ array[encarrecs, setmanes] of var 1..numGermans: assignacio;
 % si s'afegeixen més restriccions es probable que sigui UNSAT (tarda molt). Amb chuffed solver troba la solució en 1s. Fer el problema amb minimitzar les diferencies a les assignacions tarda molt.
 
 % tirar les basures ho fa tothom més o menys el mateix número de vegades i ben espaiat
-constraint forall (k in germans) (
-                  count_leq([ assignacio[3,j] | j in setmanes ], k, numSetmanes div 7));
+constraint forall (k in germans where k != 4) (
+    count_leq([ assignacio[3,j] | j in setmanes ], k, numSetmanes div 6)
+);
 constraint forall (j in setmanes) (
                   if (j >= numSetmanes - 1) then true else assignacio[3,j] != assignacio[3,j+2] endif);
 constraint forall (j in setmanes) (
                   if (j >= numSetmanes - 2) then true else assignacio[3,j] != assignacio[3,j+3] endif);   
-constraint forall (j in setmanes) (
-                  if (j >= numSetmanes - 3) then true else assignacio[3,j] != assignacio[3,j+4] endif);  
-constraint forall (j in setmanes) (
-                  if (j >= numSetmanes - 4) then true else assignacio[3,j] != assignacio[3,j+5] endif);                         
+%constraint forall (j in setmanes) (
+%                  if (j >= numSetmanes - 3) then true else assignacio[3,j] != assignacio[3,j+4] endif);  
+% constraint forall (j in setmanes) (
+%                   if (j >= numSetmanes - 4) then true else assignacio[3,j] != assignacio[3,j+5] endif);                         
 
+% el Vicenç no tira les bassures
+constraint forall (j in setmanes) (assignacio[3,j] != 4);
 
 
 constraint forall (j in setmanes) (
